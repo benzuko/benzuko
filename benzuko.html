@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>benzuko — global payments. digital freedom.</title>
+<meta name="description" content="Buy and sell PayPal, Wise, Skrill, USDT and 40+ digital balances peer-to-peer. Every trade held in escrow until both sides are satisfied." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0A0A0B;
+    --ink-2:#141416;
+    --paper:#F3F3F1;
+    --paper-2:#EBEBE8;
+    --graphite:#6B6B70;
+    --graphite-lt:#9A9AA0;
+    --line-dark:#232326;
+    --line-lt:#E0E0DC;
+    --white:#FFFFFF;
+    --display:'Jost',system-ui,sans-serif;
+    --body:'Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --maxw:1180px;
+    --ease:cubic-bezier(.16,.84,.44,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--body);
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--ink);color:var(--paper)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono);font-feature-settings:"tnum" 1;letter-spacing:-.01em}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--graphite);
+  }
+
+  /* ---------- brand mark ---------- */
+  .mark{width:1em;height:1em;display:inline-block;vertical-align:-.16em}
+  .logo{display:inline-flex;align-items:center;gap:.5em;font-family:var(--display)}
+  .logo .word{font-weight:500;letter-spacing:-.02em;line-height:1;text-transform:lowercase}
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    background:rgba(10,10,11,0);backdrop-filter:blur(0);
+    transition:background .4s var(--ease),border-color .4s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  header.nav.solid{
+    background:rgba(243,243,241,.82);backdrop-filter:blur(18px) saturate(140%);
+    border-bottom:1px solid var(--line-lt);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .nav .logo{color:var(--paper);font-size:22px;transition:color .4s var(--ease)}
+  header.nav.solid .logo{color:var(--ink)}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links nav{display:flex;gap:26px}
+  .nav-links a.link{
+    font-size:13.5px;color:rgba(243,243,241,.72);letter-spacing:-.01em;
+    transition:color .3s var(--ease);
+  }
+  .nav-links a.link:hover{color:var(--paper)}
+  header.nav.solid .nav-links a.link{color:var(--graphite)}
+  header.nav.solid .nav-links a.link:hover{color:var(--ink)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .btn{
+    font-family:var(--body);font-size:13.5px;font-weight:500;letter-spacing:-.01em;
+    padding:9px 18px;border-radius:100px;cursor:pointer;border:1px solid transparent;
+    transition:all .3s var(--ease);white-space:nowrap;display:inline-flex;align-items:center;gap:7px;
+  }
+  .btn-ghost{background:transparent;color:rgba(243,243,241,.85);border-color:rgba(243,243,241,.22)}
+  .btn-ghost:hover{border-color:rgba(243,243,241,.55);color:var(--paper)}
+  header.nav.solid .btn-ghost{color:var(--ink);border-color:var(--line-lt)}
+  header.nav.solid .btn-ghost:hover{border-color:var(--ink)}
+  .btn-solid{background:var(--paper);color:var(--ink)}
+  header.nav.solid .btn-solid{background:var(--ink);color:var(--paper)}
+  .btn-solid:hover{transform:translateY(-1px)}
+  .btn-lg{padding:14px 26px;font-size:15px}
+  .menu-toggle{display:none;background:none;border:none;cursor:pointer;color:var(--paper);width:26px;height:26px}
+  header.nav.solid .menu-toggle{color:var(--ink)}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:var(--ink);color:var(--paper);position:relative;overflow:hidden;
+    padding:150px 0 0;
+  }
+  .hero-grid{
+    position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:linear-gradient(var(--line-dark) 1px,transparent 1px),linear-gradient(90deg,var(--line-dark) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 78%);
+    mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 78%);
+  }
+  .hero .wrap{position:relative;z-index:2}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;color:var(--graphite-lt);
+    border:1px solid var(--line-dark);border-radius:100px;padding:6px 14px;margin-bottom:34px;
+  }
+  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--paper);
+    box-shadow:0 0 0 0 rgba(255,255,255,.6);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.5)}70%{box-shadow:0 0 0 8px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+  h1.hero-title{
+    font-family:var(--display);font-weight:400;line-height:1.02;letter-spacing:-.03em;
+    font-size:clamp(40px,7.4vw,90px);max-width:15ch;
+  }
+  h1.hero-title b{font-weight:600}
+  .hero-sub{
+    margin-top:26px;max-width:52ch;font-size:clamp(16px,2vw,19px);
+    color:rgba(243,243,241,.62);line-height:1.6;
+  }
+  .hero-actions{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap}
+  .hero-actions .btn-solid{background:var(--paper);color:var(--ink)}
+  .hero-actions .btn-ghost{color:var(--paper);border-color:rgba(243,243,241,.25)}
+  .hero-actions .btn-ghost:hover{border-color:var(--paper)}
+  .hero-meta{display:flex;gap:34px;margin-top:44px;flex-wrap:wrap}
+  .hero-meta .item{display:flex;flex-direction:column;gap:3px}
+  .hero-meta .num{font-family:var(--mono);font-size:22px;font-weight:500;letter-spacing:-.02em}
+  .hero-meta .lbl{font-size:12px;color:var(--graphite-lt)}
+
+  /* live rail */
+  .rail{margin-top:70px;border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);
+    overflow:hidden;position:relative;background:rgba(255,255,255,.012)}
+  .rail::before,.rail::after{content:"";position:absolute;top:0;bottom:0;width:90px;z-index:3;pointer-events:none}
+  .rail::before{left:0;background:linear-gradient(90deg,var(--ink),transparent)}
+  .rail::after{right:0;background:linear-gradient(270deg,var(--ink),transparent)}
+  .rail-track{display:flex;gap:0;width:max-content;animation:marquee 42s linear infinite}
+  .rail:hover .rail-track{animation-play-state:paused}
+  .rail-item{display:flex;align-items:center;gap:14px;padding:16px 30px;border-right:1px solid var(--line-dark);white-space:nowrap}
+  .rail-item .pair{font-size:13.5px;color:rgba(243,243,241,.8);letter-spacing:-.01em}
+  .rail-item .rate{font-family:var(--mono);font-size:13.5px;color:var(--paper)}
+  .rail-item .chg{font-family:var(--mono);font-size:11.5px;color:var(--graphite-lt)}
+  .rail-item .chg.up::before{content:"▲ ";font-size:8px}
+  .rail-item .chg.dn::before{content:"▼ ";font-size:8px}
+  @keyframes marquee{to{transform:translateX(-50%)}}
+
+  /* ---------- sections ---------- */
+  section{padding:110px 0}
+  .sec-head{max-width:60ch;margin-bottom:56px}
+  .sec-head .eyebrow{display:block;margin-bottom:18px}
+  h2.sec-title{font-family:var(--display);font-weight:400;letter-spacing:-.025em;
+    font-size:clamp(28px,4.4vw,46px);line-height:1.08}
+  h2.sec-title b{font-weight:600}
+  .sec-head p{margin-top:18px;color:var(--graphite);font-size:17px;max-width:52ch}
+
+  /* assets */
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
+  .chip{font-family:var(--body);font-size:13px;font-weight:500;padding:8px 15px;border-radius:100px;
+    border:1px solid var(--line-lt);background:transparent;color:var(--graphite);cursor:pointer;
+    transition:all .25s var(--ease)}
+  .chip:hover{border-color:var(--ink);color:var(--ink)}
+  .chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .asset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:0;
+    border-top:1px solid var(--line-lt);border-left:1px solid var(--line-lt)}
+  .asset{padding:22px 20px;border-right:1px solid var(--line-lt);border-bottom:1px solid var(--line-lt);
+    position:relative;transition:background .25s var(--ease);cursor:default}
+  .asset:hover{background:var(--paper-2)}
+  .asset .a-name{font-size:15px;font-weight:500;letter-spacing:-.01em}
+  .asset .a-cat{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite-lt);margin-top:4px}
+  .asset .a-liq{font-family:var(--mono);font-size:12px;color:var(--graphite);margin-top:14px}
+  .asset.hide{display:none}
+
+  /* ---------- p2p order book ---------- */
+  .p2p{background:var(--ink);color:var(--paper)}
+  .p2p .sec-head .eyebrow{color:var(--graphite-lt)}
+  .p2p .sec-head p{color:rgba(243,243,241,.6)}
+  .book{border:1px solid var(--line-dark);border-radius:16px;overflow:hidden;background:var(--ink-2)}
+  .book-top{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line-dark);gap:16px;flex-wrap:wrap}
+  .side-tabs{display:inline-flex;background:var(--ink);border:1px solid var(--line-dark);border-radius:100px;padding:3px}
+  .side-tabs button{font-family:var(--body);font-size:13px;font-weight:500;padding:7px 20px;border-radius:100px;border:none;background:transparent;color:var(--graphite-lt);cursor:pointer;transition:all .25s var(--ease)}
+  .side-tabs button.active{background:var(--paper);color:var(--ink)}
+  .book-filters{display:flex;gap:8px;flex-wrap:wrap}
+  .mini-sel{font-family:var(--mono);font-size:12px;color:rgba(243,243,241,.75);background:var(--ink);
+    border:1px solid var(--line-dark);border-radius:8px;padding:7px 10px}
+  .book-headrow,.book-row{display:grid;grid-template-columns:1.6fr 1fr 1.1fr 1.4fr .9fr;gap:14px;align-items:center;padding:14px 20px}
+  .book-headrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--graphite-lt);border-bottom:1px solid var(--line-dark)}
+  .book-row{border-bottom:1px solid var(--line-dark);transition:background .2s var(--ease)}
+  .book-row:last-child{border-bottom:none}
+  .book-row:hover{background:rgba(255,255,255,.025)}
+  .seller{display:flex;align-items:center;gap:11px}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--line-dark);display:grid;place-items:center;font-family:var(--display);font-weight:500;font-size:14px;color:var(--paper);flex-shrink:0}
+  .seller .s-name{font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px}
+  .verified{width:13px;height:13px;flex-shrink:0}
+  .seller .s-sub{font-family:var(--mono);font-size:11px;color:var(--graphite-lt);margin-top:2px}
+  .price .p-val{font-family:var(--mono);font-size:16px;font-weight:500}
+  .price .p-cur{font-family:var(--mono);font-size:11px;color:var(--graphite-lt)}
+  .limits{font-family:var(--mono);font-size:12.5px;color:rgba(243,243,241,.8)}
+  .limits span{color:var(--graphite-lt)}
+  .pmethods{display:flex;flex-wrap:wrap;gap:6px}
+  .pm{font-size:11px;padding:3px 9px;border:1px solid var(--line-dark);border-radius:6px;color:rgba(243,243,241,.72)}
+  .book-row .btn{width:100%;justify-content:center;font-size:13px;padding:10px 0}
+  .b-buy{background:var(--paper);color:var(--ink)}
+  .b-sell{background:transparent;color:var(--paper);border-color:var(--line-dark)}
+  .b-sell:hover{border-color:var(--paper)}
+  .book-foot{padding:15px 20px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--graphite-lt);border-top:1px solid var(--line-dark)}
+
+  /* ---------- escrow rail ---------- */
+  .escrow-flow{position:relative;margin-top:40px}
+  .escrow-line{position:absolute;left:24px;top:24px;bottom:24px;width:2px;background:var(--line-lt)}
+  .escrow-line .fill{position:absolute;top:0;left:0;right:0;height:0;background:var(--ink);transition:height 1.1s var(--ease)}
+  .escrow-flow.lit .escrow-line .fill{height:100%}
+  .esteps{display:flex;flex-direction:column;gap:34px}
+  .estep{display:grid;grid-template-columns:48px 1fr;gap:22px;align-items:start;position:relative;z-index:2}
+  .estep .node{width:48px;height:48px;border-radius:50%;border:2px solid var(--line-lt);background:var(--paper);
+    display:grid;place-items:center;font-family:var(--mono);font-size:14px;font-weight:500;color:var(--graphite);
+    transition:all .5s var(--ease)}
+  .escrow-flow.lit .estep .node{border-color:var(--ink);color:var(--ink)}
+  .estep h3{font-family:var(--display);font-weight:500;font-size:20px;letter-spacing:-.01em}
+  .estep p{color:var(--graphite);font-size:15px;margin-top:5px;max-width:56ch}
+
+  /* ---------- feature columns ---------- */
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line-lt)}
+  .col{padding:34px 26px 34px 0;border-bottom:1px solid var(--line-lt)}
+  .col-icon{width:22px;height:22px;margin-bottom:20px;color:var(--ink)}
+  .col h3{font-family:var(--display);font-weight:500;font-size:19px;letter-spacing:-.01em;margin-bottom:8px}
+  .col p{color:var(--graphite);font-size:14.5px;line-height:1.55}
+  .col ul{list-style:none;margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
+  .col ul li{font-family:var(--mono);font-size:11px;color:var(--graphite);border:1px solid var(--line-lt);border-radius:6px;padding:3px 8px}
+
+  /* ---------- developer ---------- */
+  .dev{background:var(--ink);color:var(--paper)}
+  .dev-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:center}
+  .dev .sec-head{margin-bottom:0}
+  .dev .sec-head .eyebrow{color:var(--graphite-lt)}
+  .dev .sec-head p{color:rgba(243,243,241,.6)}
+  .dev-feats{margin-top:26px;display:flex;flex-direction:column;gap:14px}
+  .dev-feat{display:flex;gap:12px;align-items:baseline}
+  .dev-feat .k{font-family:var(--mono);font-size:12px;color:var(--graphite-lt);min-width:74px}
+  .dev-feat .v{font-size:14.5px;color:rgba(243,243,241,.85)}
+  .code{background:#0E0E10;border:1px solid var(--line-dark);border-radius:14px;overflow:hidden;font-family:var(--mono);font-size:13px}
+  .code-top{display:flex;align-items:center;gap:8px;padding:13px 16px;border-bottom:1px solid var(--line-dark)}
+  .code-top .d{width:11px;height:11px;border-radius:50%;border:1px solid var(--line-dark)}
+  .code-top .fname{margin-left:8px;font-size:12px;color:var(--graphite-lt)}
+  .code pre{padding:20px 18px;overflow-x:auto;line-height:1.7;color:rgba(243,243,241,.9)}
+  .code .cm{color:var(--graphite)}
+  .code .kw{color:#fff;font-weight:500}
+  .code .st{color:var(--graphite-lt)}
+
+  /* ---------- pricing ---------- */
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line-lt);border-radius:16px;overflow:hidden}
+  .tier{padding:34px 30px;border-right:1px solid var(--line-lt);display:flex;flex-direction:column}
+  .tier:last-child{border-right:none}
+  .tier.feat{background:var(--ink);color:var(--paper)}
+  .tier .t-name{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--graphite)}
+  .tier.feat .t-name{color:var(--graphite-lt)}
+  .tier .t-price{font-family:var(--display);font-weight:400;font-size:40px;letter-spacing:-.02em;margin:14px 0 4px}
+  .tier .t-price small{font-family:var(--mono);font-size:14px;color:var(--graphite)}
+  .tier.feat .t-price small{color:var(--graphite-lt)}
+  .tier .t-desc{font-size:14px;color:var(--graphite);min-height:42px}
+  .tier.feat .t-desc{color:rgba(243,243,241,.6)}
+  .tier ul{list-style:none;margin:22px 0;display:flex;flex-direction:column;gap:11px;flex:1}
+  .tier li{font-size:14px;display:flex;gap:10px;align-items:baseline}
+  .tier li::before{content:"—";color:var(--graphite-lt);font-family:var(--mono)}
+  .tier .btn{width:100%;justify-content:center}
+  .tier .btn-solid{background:var(--ink);color:var(--paper)}
+  .tier.feat .btn-solid{background:var(--paper);color:var(--ink)}
+
+  /* ---------- global reach ---------- */
+  .reach{background:var(--paper-2)}
+  .cur-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .cur{font-family:var(--mono);font-size:13px;color:var(--ink);border:1px solid var(--line-lt);
+    background:var(--paper);border-radius:8px;padding:8px 12px;transition:all .2s var(--ease)}
+  .cur:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  /* ---------- cta band ---------- */
+  .band{background:var(--ink);color:var(--paper);text-align:center;padding:120px 0}
+  .band h2{font-family:var(--display);font-weight:400;letter-spacing:-.03em;font-size:clamp(30px,5.6vw,60px);line-height:1.05;max-width:16ch;margin:0 auto}
+  .band h2 b{font-weight:600}
+  .band p{color:rgba(243,243,241,.6);margin:22px auto 0;max-width:44ch;font-size:17px}
+  .band .hero-actions{justify-content:center;margin-top:36px}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--ink);color:var(--paper);border-top:1px solid var(--line-dark);padding:70px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:1.8fr repeat(4,1fr);gap:40px}
+  .foot-brand .logo{color:var(--paper);font-size:26px}
+  .foot-brand .tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--graphite-lt);margin-top:16px}
+  .foot-brand p{color:var(--graphite);font-size:13.5px;margin-top:14px;max-width:32ch}
+  .foot-col h4{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite-lt);margin-bottom:16px}
+  .foot-col a{display:block;font-size:13.5px;color:rgba(243,243,241,.66);margin-bottom:11px;transition:color .2s var(--ease)}
+  .foot-col a:hover{color:var(--paper)}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:56px;padding-top:26px;border-top:1px solid var(--line-dark);flex-wrap:wrap;gap:14px}
+  .foot-bottom p{font-family:var(--mono);font-size:11.5px;color:var(--graphite-lt)}
+  .foot-bottom .legal{display:flex;gap:20px}
+  .foot-bottom .legal a{font-size:12px;color:var(--graphite-lt)}
+  .foot-bottom .legal a:hover{color:var(--paper)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:900px){
+    .nav-links nav,.nav-cta .btn-ghost{display:none}
+    .menu-toggle{display:block}
+    .dev-grid{grid-template-columns:1fr;gap:36px}
+    .cols{grid-template-columns:1fr}
+    .col{padding:30px 0;border-bottom:1px solid var(--line-lt)}
+    .price-grid{grid-template-columns:1fr}
+    .tier{border-right:none;border-bottom:1px solid var(--line-lt)}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:34px}
+    .foot-brand{grid-column:1/-1}
+    .book-headrow{display:none}
+    .book-row{grid-template-columns:1fr 1fr;gap:12px 14px;row-gap:12px}
+    .book-row .price{order:3}.book-row .limits{order:4}.book-row .pmethods{order:5;grid-column:1/-1}
+    .book-row .seller{grid-column:1/-1}.book-row .act{grid-column:1/-1}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 20px}
+    section{padding:80px 0}
+    .hero{padding:120px 0 0}
+    .hero-meta{gap:24px}
+    .foot-grid{grid-template-columns:1fr}
+    .foot-bottom{flex-direction:column;align-items:flex-start}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    .reveal{opacity:1;transform:none}
+    .escrow-flow .escrow-line .fill{height:100%}
+  }
+  /* ============ BENZUKO APP LAYER ============ */
+  #bzApp{position:fixed;inset:0;z-index:200;display:none;background:var(--paper);color:var(--ink)}
+  #bzApp.on{display:block}
+  body.bz-locked{overflow:hidden}
+  .bz-dark{--paper:#0A0A0B;--paper-2:#141416;--ink:#F3F3F1;--ink-2:#232326;--graphite:#9A9AA0;--graphite-lt:#6B6B70;--line-lt:#232326;--line-dark:#2C2C30}
+
+  /* ---- auth ---- */
+  .bz-auth{position:fixed;inset:0;z-index:210;display:none;place-items:center;background:var(--ink);padding:24px}
+  .bz-auth.on{display:grid}
+  .bz-auth-card{width:100%;max-width:420px;background:var(--paper);border-radius:20px;padding:38px 34px;color:var(--ink);animation:bzUp .5s var(--ease)}
+  @keyframes bzUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .bz-auth .logo{color:var(--ink);font-size:24px;margin-bottom:26px}
+  .bz-auth h2{font-family:var(--display);font-weight:500;font-size:26px;letter-spacing:-.02em}
+  .bz-auth .sub{color:var(--graphite);font-size:14px;margin:8px 0 26px}
+  .bz-field{margin-bottom:14px}
+  .bz-field label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite);margin-bottom:7px}
+  .bz-input{width:100%;font-family:var(--body);font-size:15px;padding:13px 15px;border:1px solid var(--line-lt);border-radius:11px;background:var(--paper);color:var(--ink);transition:border-color .2s var(--ease)}
+  .bz-input:focus{outline:none;border-color:var(--ink)}
+  .bz-btn{width:100%;justify-content:center;font-size:15px;padding:14px;margin-top:8px}
+  .bz-oauth{display:flex;gap:10px;margin-top:16px}
+  .bz-oauth button{flex:1;font-family:var(--body);font-size:13px;padding:11px;border:1px solid var(--line-lt);border-radius:11px;background:transparent;color:var(--ink);cursor:pointer;transition:border-color .2s}
+  .bz-oauth button:hover{border-color:var(--ink)}
+  .bz-auth .swap{text-align:center;font-size:13.5px;color:var(--graphite);margin-top:22px}
+  .bz-auth .swap a{color:var(--ink);cursor:pointer;font-weight:500}
+  .bz-otp{display:flex;gap:10px;justify-content:center;margin:8px 0 4px}
+  .bz-otp input{width:46px;height:54px;text-align:center;font-family:var(--mono);font-size:22px;border:1px solid var(--line-lt);border-radius:11px;background:var(--paper);color:var(--ink)}
+  .bz-otp input:focus{outline:none;border-color:var(--ink)}
+  .bz-err{color:#C0392B;font-size:13px;margin-top:6px;min-height:18px}
+  .bz-dark .bz-err{color:#E67E73}
+
+  /* ---- shell ---- */
+  .bz-shell{display:grid;grid-template-columns:248px 1fr;height:100%}
+  .bz-side{background:var(--ink);color:var(--paper);display:flex;flex-direction:column;padding:20px 16px;overflow-y:auto}
+  .bz-dark .bz-side{background:#050506;border-right:1px solid var(--line-dark)}
+  .bz-side .logo{color:var(--paper);font-size:22px;padding:6px 8px 22px}
+  .bz-nav-group{margin-bottom:18px}
+  .bz-nav-group .gh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite-lt);padding:0 10px 8px}
+  .bz-navlink{display:flex;align-items:center;gap:11px;padding:10px 10px;border-radius:10px;font-size:14px;color:rgba(243,243,241,.68);cursor:pointer;transition:all .18s var(--ease)}
+  .bz-navlink:hover{background:rgba(255,255,255,.05);color:var(--paper)}
+  .bz-navlink.active{background:var(--paper);color:var(--ink);font-weight:500}
+  .bz-navlink svg{width:17px;height:17px;flex-shrink:0}
+  .bz-navlink .badge{margin-left:auto;font-family:var(--mono);font-size:10px;background:rgba(255,255,255,.1);padding:2px 7px;border-radius:100px}
+  .bz-navlink.active .badge{background:var(--ink);color:var(--paper)}
+  .bz-side-foot{margin-top:auto;padding-top:16px;border-top:1px solid var(--line-dark)}
+
+  .bz-main{overflow-y:auto;background:var(--paper)}
+  .bz-top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:16px;padding:14px 26px;background:color-mix(in srgb,var(--paper) 85%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-lt)}
+  .bz-search{flex:1;max-width:380px;display:flex;align-items:center;gap:9px;padding:9px 14px;border:1px solid var(--line-lt);border-radius:11px;color:var(--graphite);font-size:13.5px}
+  .bz-role{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .bz-role select{font-family:var(--mono);font-size:12px;padding:8px 10px;border:1px solid var(--line-lt);border-radius:9px;background:var(--paper);color:var(--ink);cursor:pointer}
+  .bz-icobtn{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line-lt);border-radius:10px;background:transparent;color:var(--ink);cursor:pointer;position:relative;transition:border-color .2s}
+  .bz-icobtn:hover{border-color:var(--ink)}
+  .bz-icobtn .dot{position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;background:#C0392B}
+  .bz-ava{width:38px;height:38px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-family:var(--display);font-weight:500;font-size:15px;cursor:pointer}
+
+  .bz-view{padding:28px 26px 80px;max-width:1080px}
+  .bz-ph{margin-bottom:26px}
+  .bz-ph h1{font-family:var(--display);font-weight:500;font-size:30px;letter-spacing:-.02em}
+  .bz-ph p{color:var(--graphite);font-size:15px;margin-top:5px}
+  .bz-tier-badge{font-family:var(--mono);font-size:11px;padding:5px 11px;border-radius:100px;border:1px solid var(--line-lt);color:var(--graphite)}
+
+  .bz-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:22px}
+  .bz-card{border:1px solid var(--line-lt);border-radius:16px;padding:20px;background:var(--paper)}
+  .bz-card .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--graphite);margin-bottom:12px}
+  .bz-card .v{font-family:var(--display);font-weight:500;font-size:30px;letter-spacing:-.02em}
+  .bz-card .v small{font-family:var(--mono);font-size:13px;color:var(--graphite);font-weight:400}
+  .bz-card .d{font-family:var(--mono);font-size:12px;margin-top:8px;color:var(--graphite)}
+  .bz-card .d.up{color:#1E8E5A}.bz-card .d.dn{color:#C0392B}
+  .bz-dark .bz-card .d.up{color:#4EC38A}.bz-dark .bz-card .d.dn{color:#E67E73}
+
+  .bz-panel{border:1px solid var(--line-lt);border-radius:16px;background:var(--paper);margin-bottom:22px;overflow:hidden}
+  .bz-panel-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line-lt)}
+  .bz-panel-h h3{font-family:var(--display);font-weight:500;font-size:17px}
+  .bz-panel-b{padding:6px 0}
+  .bz-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--line-lt)}
+  .bz-row:last-child{border-bottom:none}
+  .bz-row .grow{flex:1;min-width:0}
+  .bz-row .t1{font-size:14.5px;font-weight:500}
+  .bz-row .t2{font-family:var(--mono);font-size:12px;color:var(--graphite);margin-top:2px}
+  .bz-row .amt{font-family:var(--mono);font-size:15px;font-weight:500;text-align:right}
+
+  .bz-btn2{font-family:var(--body);font-size:13px;font-weight:500;padding:9px 15px;border-radius:9px;border:1px solid var(--line-lt);background:transparent;color:var(--ink);cursor:pointer;transition:all .18s var(--ease)}
+  .bz-btn2:hover{border-color:var(--ink)}
+  .bz-btn2.solid{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .bz-btn2.solid:hover{opacity:.9}
+  .bz-btn2.sm{padding:6px 11px;font-size:12px}
+  .bz-btn2.danger{color:#C0392B;border-color:#E7C3BE}.bz-btn2.danger:hover{border-color:#C0392B}
+
+  .bz-tag{font-family:var(--mono);font-size:10.5px;padding:3px 9px;border-radius:6px;border:1px solid var(--line-lt);color:var(--graphite)}
+  .bz-stat{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:100px;display:inline-flex;align-items:center;gap:6px}
+  .bz-stat::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .bz-stat.locked{background:#FBF3E0;color:#8A6D1F}
+  .bz-stat.paid{background:#E4EEFB;color:#2A5C9E}
+  .bz-stat.done{background:#E3F3EA;color:#1E8E5A}
+  .bz-stat.disp{background:#FBE7E4;color:#C0392B}
+  .bz-dark .bz-stat.locked{background:#2A2410;color:#E0C066}.bz-dark .bz-stat.paid{background:#122437;color:#7FB0E8}
+  .bz-dark .bz-stat.done{background:#0F2A1B;color:#4EC38A}.bz-dark .bz-stat.disp{background:#2E1512;color:#E67E73}
+
+  .bz-grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .bz-grid2>*{margin-bottom:0}
+
+  /* trade / escrow room */
+  .bz-trade{display:grid;grid-template-columns:1fr 340px;gap:22px}
+  .bz-chat{display:flex;flex-direction:column;height:460px}
+  .bz-chat-log{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+  .bz-msg{max-width:78%;padding:10px 13px;border-radius:13px;font-size:14px;line-height:1.45}
+  .bz-msg.them{align-self:flex-start;background:var(--paper-2);border:1px solid var(--line-lt)}
+  .bz-msg.me{align-self:flex-end;background:var(--ink);color:var(--paper)}
+  .bz-msg.sys{align-self:center;font-family:var(--mono);font-size:11px;color:var(--graphite);background:transparent}
+  .bz-chat-in{display:flex;gap:10px;padding:12px;border-top:1px solid var(--line-lt)}
+  .bz-chat-in input{flex:1;border:1px solid var(--line-lt);border-radius:10px;padding:11px 13px;background:var(--paper);color:var(--ink);font-size:14px}
+  .bz-chat-in input:focus{outline:none;border-color:var(--ink)}
+  .bz-escrow-side .big{font-family:var(--display);font-weight:500;font-size:34px;letter-spacing:-.02em}
+  .bz-timer{font-family:var(--mono);font-size:13px;color:var(--graphite)}
+  .bz-steps{display:flex;flex-direction:column;gap:0;margin:6px 0}
+  .bz-steps .s{display:flex;gap:12px;padding:10px 0;font-size:13px;color:var(--graphite)}
+  .bz-steps .s.done{color:var(--ink)}
+  .bz-steps .s .b{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line-lt);flex-shrink:0;display:grid;place-items:center;font-size:10px}
+  .bz-steps .s.done .b{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  /* kyc wizard */
+  .bz-kyc-steps{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap}
+  .bz-kyc-steps .ks{flex:1;min-width:120px;padding:14px;border:1px solid var(--line-lt);border-radius:12px}
+  .bz-kyc-steps .ks.active{border-color:var(--ink)}
+  .bz-kyc-steps .ks.done{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .bz-kyc-steps .ks .n{font-family:var(--mono);font-size:11px;opacity:.6}
+  .bz-kyc-steps .ks .l{font-size:14px;font-weight:500;margin-top:4px}
+  .bz-drop{border:1.5px dashed var(--line-lt);border-radius:14px;padding:34px;text-align:center;color:var(--graphite);cursor:pointer;transition:border-color .2s}
+  .bz-drop:hover{border-color:var(--ink)}
+  .bz-scan{font-family:var(--mono);font-size:12px;color:var(--graphite);margin-top:14px}
+
+  /* virtual card */
+  .bz-vcard{aspect-ratio:1.6/1;border-radius:18px;background:linear-gradient(140deg,#141416,#0A0A0B);color:#F3F3F1;padding:22px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;max-width:380px}
+  .bz-vcard::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%)}
+  .bz-vcard .vnum{font-family:var(--mono);font-size:18px;letter-spacing:.14em}
+  .bz-vcard .vrow{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:rgba(243,243,241,.6)}
+  .bz-vcard.frozen{opacity:.5}
+
+  .bz-table{width:100%;border-collapse:collapse}
+  .bz-table th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite);text-align:left;padding:12px 20px;border-bottom:1px solid var(--line-lt)}
+  .bz-table td{padding:14px 20px;border-bottom:1px solid var(--line-lt);font-size:14px}
+  .bz-table tr:last-child td{border-bottom:none}
+  .bz-mono{font-family:var(--mono);font-size:13px}
+
+  .bz-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);z-index:300;background:var(--ink);color:var(--paper);padding:13px 20px;border-radius:12px;font-size:14px;opacity:0;transition:all .4s var(--ease);pointer-events:none}
+  .bz-toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+
+  .bz-empty{text-align:center;padding:50px 20px;color:var(--graphite)}
+  .bz-empty svg{width:34px;height:34px;margin-bottom:12px;opacity:.4}
+
+  .bz-mobtoggle{display:none}
+  @media(max-width:860px){
+    .bz-shell{grid-template-columns:1fr}
+    .bz-side{position:fixed;left:0;top:0;bottom:0;width:248px;z-index:40;transform:translateX(-100%);transition:transform .3s var(--ease)}
+    .bz-side.open{transform:none}
+    .bz-mobtoggle{display:grid}
+    .bz-trade{grid-template-columns:1fr}
+    .bz-grid2{grid-template-columns:1fr}
+    .bz-view{padding:20px 16px 80px}
+    .bz-scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:39;display:none}
+    .bz-scrim.on{display:block}
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ===== brand mark (reusable svg symbol) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="benzuko-b" viewBox="0 0 120 120">
+    <circle cx="72" cy="76" r="29" fill="none" stroke="currentColor" stroke-width="15"/>
+    <rect x="34" y="14" width="15" height="96" rx="7.5" fill="currentColor"/>
+    <path d="M49 66 L49 104 L27 92 Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- ===== nav ===== -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="logo" aria-label="benzuko home">
+      <svg class="mark"><use href="#benzuko-b"/></svg>
+      <span class="word">benzuko</span>
+    </a>
+    <div class="nav-links">
+      <nav>
+        <a class="link" href="#marketplace">Marketplace</a>
+        <a class="link" href="#p2p">P2P</a>
+        <a class="link" href="#escrow">Escrow</a>
+        <a class="link" href="#developers">Developers</a>
+        <a class="link" href="#pricing">Pricing</a>
+      </nav>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="#login">Sign in</a>
+      <a class="btn btn-solid" href="#signup">Get started</a>
+      <button class="menu-toggle" aria-label="Menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== hero ===== -->
+<section class="hero" id="top">
+  <div class="hero-grid"></div>
+  <div class="wrap">
+    <span class="hero-eyebrow mono"><span class="dot"></span>peer-to-peer · escrow-backed</span>
+    <h1 class="hero-title">move value between <b>any wallet.</b></h1>
+    <p class="hero-sub">Buy and sell PayPal, Wise, Skrill, USDT and 40+ digital balances with people you can trust — every trade held in escrow until both sides confirm. Global payments. Digital freedom.</p>
+    <div class="hero-actions">
+      <a class="btn btn-solid btn-lg" href="#signup">Start trading
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn btn-ghost btn-lg" href="#marketplace">Explore the marketplace</a>
+    </div>
+    <div class="hero-meta">
+      <div class="item"><span class="num">$2.4B+</span><span class="lbl">settled in escrow</span></div>
+      <div class="item"><span class="num">180+</span><span class="lbl">countries served</span></div>
+      <div class="item"><span class="num">40+</span><span class="lbl">balances & assets</span></div>
+      <div class="item"><span class="num">99.98%</span><span class="lbl">dispute resolution</span></div>
+    </div>
+  </div>
+
+  <!-- live rail -->
+  <div class="rail" aria-hidden="true">
+    <div class="rail-track" id="railTrack"></div>
+  </div>
+</section>
+
+<!-- ===== marketplace / assets ===== -->
+<section id="marketplace">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">the marketplace</span>
+      <h2 class="sec-title">Every balance worth <b>trading.</b></h2>
+      <p>One place to buy and sell wallet balances, gift cards, virtual cards and digital assets. Filter by what you actually hold.</p>
+    </div>
+    <div class="filters reveal" id="assetFilters">
+      <button class="chip active" data-cat="all">All</button>
+      <button class="chip" data-cat="wallet">Wallet balance</button>
+      <button class="chip" data-cat="crypto">Crypto</button>
+      <button class="chip" data-cat="card">Cards</button>
+      <button class="chip" data-cat="gift">Gift cards</button>
+    </div>
+    <div class="asset-grid reveal" id="assetGrid"></div>
+  </div>
+</section>
+
+<!-- ===== p2p order book ===== -->
+<section class="p2p" id="p2p">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">p2p engine</span>
+      <h2 class="sec-title">An order book built for <b>real money.</b></h2>
+      <p>Match with verified sellers by country, currency, payment method and completion rate. Structured like the exchanges you know — stripped to what matters.</p>
+    </div>
+
+    <div class="book reveal">
+      <div class="book-top">
+        <div class="side-tabs" id="sideTabs">
+          <button class="active" data-side="buy">Buy</button>
+          <button data-side="sell">Sell</button>
+        </div>
+        <div class="book-filters">
+          <span class="mini-sel">USDT ▾</span>
+          <span class="mini-sel">BDT ▾</span>
+          <span class="mini-sel">All methods ▾</span>
+          <span class="mini-sel">Verified only ▾</span>
+        </div>
+      </div>
+      <div class="book-headrow">
+        <span>Seller</span><span>Price</span><span>Available / Limit</span><span>Payment</span><span></span>
+      </div>
+      <div id="bookRows"></div>
+      <div class="book-foot">Showing 5 of 1,284 offers — sign in to see live depth</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== escrow ===== -->
+<section id="escrow">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">escrow protection</span>
+      <h2 class="sec-title">No one loses. <b>Ever.</b></h2>
+      <p>Funds are locked the moment a trade opens and only move when both sides are satisfied. If something goes wrong, a moderator steps in.</p>
+    </div>
+    <div class="escrow-flow reveal" id="escrowFlow">
+      <div class="escrow-line"><div class="fill"></div></div>
+      <div class="esteps">
+        <div class="estep"><div class="node">01</div><div><h3>Escrow lock</h3><p>The seller's balance is frozen in benzuko escrow before the buyer sends a single unit of payment.</p></div></div>
+        <div class="estep"><div class="node">02</div><div><h3>Pay & confirm</h3><p>Buyer pays through the agreed method and marks it done. Real-time chat keeps proof in one place.</p></div></div>
+        <div class="estep"><div class="node">03</div><div><h3>Seller releases</h3><p>Seller verifies receipt and releases. Funds land instantly — most trades close in under four minutes.</p></div></div>
+        <div class="estep"><div class="node">04</div><div><h3>Appeal & resolve</h3><p>Disagree? Open an appeal. A trained moderator reviews the chat, evidence and audit log, then decides.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== security / trust ===== -->
+<section id="security" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">security &amp; compliance</span>
+      <h2 class="sec-title">Trust, <b>engineered in.</b></h2>
+      <p>Bank-grade controls under a quiet surface. You never see most of it working — that's the point.</p>
+    </div>
+    <div class="cols">
+      <div class="col reveal">
+        <svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg>
+        <h3>Account security</h3>
+        <p>Sign in the safe way, then lock it down with hardware-backed keys and a second factor.</p>
+        <ul><li>Passkey</li><li>2FA</li><li>OAuth</li><li>Device fingerprint</li><li>Email + phone</li></ul>
+      </div>
+      <div class="col reveal">
+        <svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        <h3>Identity &amp; KYC</h3>
+        <p>Verify once, trade everywhere. Tiered checks scale limits without slowing you down.</p>
+        <ul><li>Tier 0–3</li><li>Passport / NID</li><li>Selfie + OCR</li><li>AML</li><li>OFAC screening</li></ul>
+      </div>
+      <div class="col reveal">
+        <svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+        <h3>Platform defense</h3>
+        <p>Every request is scored, rate-limited and logged before it ever touches a balance.</p>
+        <ul><li>Fraud scoring</li><li>Rate limiting</li><li>Geo controls</li><li>Audit logs</li><li>Sanction checks</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== developers ===== -->
+<section class="dev" id="developers">
+  <div class="wrap dev-grid">
+    <div class="sec-head reveal">
+      <span class="eyebrow">merchant api</span>
+      <h2 class="sec-title">Accept payouts in <b>nine lines.</b></h2>
+      <p>A REST API and typed SDKs built the way you'd design them yourself. Escrow, webhooks and settlement, ready for production.</p>
+      <div class="dev-feats">
+        <div class="dev-feat"><span class="k">REST API</span><span class="v">Predictable resources, idempotent writes, cursor pagination.</span></div>
+        <div class="dev-feat"><span class="k">Webhooks</span><span class="v">Signed events for every escrow, payout and dispute change.</span></div>
+        <div class="dev-feat"><span class="k">SDKs</span><span class="v">TypeScript, Node and server frameworks, fully typed.</span></div>
+      </div>
+    </div>
+    <div class="code reveal">
+      <div class="code-top"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fname">create-escrow.ts</span></div>
+<pre><span class="cm">// open an escrow-backed payout</span>
+<span class="kw">const</span> order = <span class="kw">await</span> benzuko.escrow.create({
+  asset:   <span class="st">"USDT"</span>,
+  amount:  <span class="st">"500.00"</span>,
+  settle:  <span class="st">"BDT"</span>,
+  method:  <span class="st">"wise"</span>,
+  buyer:   <span class="st">"usr_9f2a…"</span>,
+});
+
+<span class="cm">// funds locked until both sides confirm</span>
+console.log(order.status);  <span class="cm">// "locked"</span>
+console.log(order.release_url);</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ===== pricing ===== -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">pricing</span>
+      <h2 class="sec-title">Priced for the <b>trade, not the tier.</b></h2>
+      <p>No monthly minimums to buy and sell. You only pay when a trade settles.</p>
+    </div>
+    <div class="price-grid reveal">
+      <div class="tier">
+        <span class="t-name">Personal</span>
+        <div class="t-price">0.4%<small> / trade</small></div>
+        <p class="t-desc">For buyers and sellers moving their own balances.</p>
+        <ul><li>Full marketplace access</li><li>Escrow on every trade</li><li>KYC tiers 0–2</li><li>Standard support</li></ul>
+        <a class="btn btn-solid" href="#signup">Start free</a>
+      </div>
+      <div class="tier feat">
+        <span class="t-name">Merchant</span>
+        <div class="t-price">0.25%<small> / trade</small></div>
+        <p class="t-desc">For businesses accepting cross-border payouts.</p>
+        <ul><li>Everything in Personal</li><li>Merchant API + webhooks</li><li>Verified seller badge</li><li>Priority disputes</li></ul>
+        <a class="btn btn-solid" href="#signup">Apply now</a>
+      </div>
+      <div class="tier">
+        <span class="t-name">Scale</span>
+        <div class="t-price">Custom</div>
+        <p class="t-desc">High volume, custom rails and dedicated risk.</p>
+        <ul><li>Volume pricing</li><li>Dedicated liquidity</li><li>Named risk manager</li><li>SLA + audit exports</li></ul>
+        <a class="btn btn-solid" href="#support">Talk to sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== global reach ===== -->
+<section class="reach" id="reach">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">global reach</span>
+      <h2 class="sec-title">One market. <b>Every corridor.</b></h2>
+      <p>Settle in the currency your counterparty actually uses — from Dhaka to Dubai to Casablanca.</p>
+    </div>
+    <div class="cur-grid reveal" id="curGrid"></div>
+  </div>
+</section>
+
+<!-- ===== cta band ===== -->
+<section class="band">
+  <div class="wrap">
+    <h2>Your balance is <b>ready to move.</b></h2>
+    <p>Join traders and merchants settling across 180+ countries with escrow behind every deal.</p>
+    <div class="hero-actions">
+      <a class="btn btn-solid btn-lg" href="#signup">Create your account</a>
+      <a class="btn btn-ghost btn-lg" href="#help">Visit the help center</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== footer ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#top" class="logo"><svg class="mark"><use href="#benzuko-b"/></svg><span class="word">benzuko</span></a>
+        <div class="tag">global payments. digital freedom.</div>
+        <p>The escrow-backed marketplace for digital money. Built for people who move value across borders.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Product</h4>
+        <a href="#marketplace">Marketplace</a>
+        <a href="#p2p">P2P exchange</a>
+        <a href="#gift">Gift cards</a>
+        <a href="#cards">Virtual cards</a>
+        <a href="#wallets">Wallets</a>
+        <a href="#escrow">Escrow</a>
+      </div>
+      <div class="foot-col">
+        <h4>Developers</h4>
+        <a href="#developers">Merchant API</a>
+        <a href="#developers">Webhooks</a>
+        <a href="#developers">SDKs</a>
+        <a href="#developers">Documentation</a>
+        <a href="#developers">Status</a>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="#about">About</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#blog">Blog</a>
+        <a href="#help">Help center</a>
+        <a href="#support">Support</a>
+      </div>
+      <div class="foot-col">
+        <h4>Account</h4>
+        <a href="#login">Log in</a>
+        <a href="#signup">Sign up</a>
+        <a href="#kyc">Verify identity</a>
+        <a href="#merchant">Become a merchant</a>
+        <a href="#dashboard">Dashboard</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 benzuko. All rights reserved.</p>
+      <div class="legal">
+        <a href="#terms">Terms</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#aml">AML policy</a>
+        <a href="#legal">Legal</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- live rail data ---- */
+  var rail=[
+    ["PayPal → USDT","0.9420","up","+0.4%"],["Wise → BDT","118.62","up","+0.2%"],
+    ["USDT → BDT","119.85","dn","-0.1%"],["Skrill → USD","0.9310","up","+0.6%"],
+    ["Payoneer → USD","0.9585","dn","-0.3%"],["BTC → USD","64,210","up","+1.2%"],
+    ["Neteller → EUR","0.9120","up","+0.1%"],["Revolut → GBP","0.9880","dn","-0.2%"],
+    ["ETH → USD","3,142","up","+0.8%"],["Cash App → USD","0.9640","up","+0.3%"],
+    ["Venmo → USD","0.9575","dn","-0.4%"],["Apple Cash → USD","0.9700","up","+0.2%"]
+  ];
+  var track=document.getElementById("railTrack");
+  function railItem(d){
+    var el=document.createElement("div");el.className="rail-item";
+    el.innerHTML='<span class="pair">'+d[0]+'</span><span class="rate">'+d[1]+'</span><span class="chg '+d[2]+'">'+d[3]+'</span>';
+    return el;
+  }
+  // duplicate for seamless marquee
+  rail.concat(rail).forEach(function(d){track.appendChild(railItem(d));});
+
+  /* ---- assets ---- */
+  var assets=[
+    ["PayPal balance","wallet","high liquidity"],["Wise balance","wallet","high liquidity"],
+    ["Payoneer balance","wallet","high liquidity"],["Skrill","wallet","medium liquidity"],
+    ["Neteller","wallet","medium liquidity"],["Payeer","wallet","medium liquidity"],
+    ["Revolut","wallet","medium liquidity"],["Monese","wallet","low liquidity"],
+    ["Cash App","wallet","high liquidity"],["Venmo","wallet","medium liquidity"],
+    ["Apple Cash","wallet","medium liquidity"],["Google Pay","wallet","medium liquidity"],
+    ["USDT","crypto","deep liquidity"],["Bitcoin","crypto","deep liquidity"],
+    ["Ethereum","crypto","deep liquidity"],
+    ["Virtual card","card","instant issue"],["Merchant card","card","instant issue"],
+    ["Amazon gift card","gift","high liquidity"],["Apple gift card","gift","high liquidity"],
+    ["Steam gift card","gift","medium liquidity"],["Google Play card","gift","medium liquidity"]
+  ];
+  var grid=document.getElementById("assetGrid");
+  assets.forEach(function(a){
+    var el=document.createElement("div");el.className="asset";el.dataset.cat=a[1];
+    el.innerHTML='<div class="a-name">'+a[0]+'</div><div class="a-cat">'+a[1]+'</div><div class="a-liq">'+a[2]+'</div>';
+    grid.appendChild(el);
+  });
+  document.getElementById("assetFilters").addEventListener("click",function(e){
+    var b=e.target.closest(".chip");if(!b)return;
+    this.querySelectorAll(".chip").forEach(function(c){c.classList.remove("active");});
+    b.classList.add("active");var cat=b.dataset.cat;
+    grid.querySelectorAll(".asset").forEach(function(a){
+      a.classList.toggle("hide",cat!=="all"&&a.dataset.cat!==cat);
+    });
+  });
+
+  /* ---- p2p order book ---- */
+  var buyOffers=[
+    ["Rahim T.","RT",99.8,"12,940","119.85","BDT","4,800","500 – 50,000",["Wise","bKash","Nagad"]],
+    ["Aisha K.","AK",99.6,"8,102","119.90","BDT","2,300","1,000 – 40,000",["PayPal","Bank"]],
+    ["Yusuf A.","YA",98.9,"5,551","120.02","BDT","9,100","500 – 90,000",["Skrill","Wise"]],
+    ["Nadia B.","NB",100,"21,300","120.10","BDT","15,000","2,000 – 120,000",["Payoneer","Bank"]],
+    ["Omar F.","OF",99.2,"3,870","120.25","BDT","1,150","500 – 20,000",["bKash","Neteller"]]
+  ];
+  var sellOffers=[
+    ["Karim S.","KS",99.9,"18,220","119.40","BDT","6,200","500 – 60,000",["Wise","Nagad"]],
+    ["Lena M.","LM",99.5,"7,640","119.30","BDT","3,400","1,000 – 35,000",["PayPal","Skrill"]],
+    ["Tariq H.","TH",98.7,"4,010","119.15","BDT","8,700","500 – 80,000",["Bank","Payoneer"]],
+    ["Sofia R.","SR",100,"25,900","119.05","BDT","12,500","2,000 – 100,000",["bKash","Wise"]],
+    ["Imran D.","ID",99.1,"2,930","118.95","BDT","950","500 – 18,000",["Neteller","Bank"]]
+  ];
+  var rows=document.getElementById("bookRows");
+  var check='<svg class="verified" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>';
+  function renderBook(side){
+    var data=side==="buy"?buyOffers:sellOffers;
+    var label=side==="buy"?"Buy":"Sell";
+    var cls=side==="buy"?"b-buy":"b-sell";
+    rows.innerHTML="";
+    data.forEach(function(o){
+      var pm=o[8].map(function(m){return '<span class="pm">'+m+'</span>';}).join("");
+      var r=document.createElement("div");r.className="book-row";
+      r.innerHTML=
+        '<div class="seller"><div class="avatar">'+o[1]+'</div><div><div class="s-name">'+o[0]+check+'</div>'+
+          '<div class="s-sub">'+o[3]+' orders · '+o[2].toFixed(1)+'%</div></div></div>'+
+        '<div class="price"><div class="p-val">'+o[4]+'</div><div class="p-cur">'+o[5]+' / USDT</div></div>'+
+        '<div class="limits">'+o[6]+' USDT<br><span>'+o[7]+' '+o[5]+'</span></div>'+
+        '<div class="pmethods">'+pm+'</div>'+
+        '<div class="act"><button class="btn '+cls+'">'+label+' USDT</button></div>';
+      rows.appendChild(r);
+    });
+  }
+  renderBook("buy");
+  document.getElementById("sideTabs").addEventListener("click",function(e){
+    var b=e.target.closest("button");if(!b)return;
+    this.querySelectorAll("button").forEach(function(x){x.classList.remove("active");});
+    b.classList.add("active");renderBook(b.dataset.side);
+  });
+
+  /* ---- currencies ---- */
+  var curs=["BDT","USD","AUD","TRY","RON","NZD","SAR","AED","QAR","AFN","BHD","LYD","YER","MAD","OMR","PKR","TND","SDG","JOD","KWD","LBP","EGP","DZD","LKR","NPR","IQD","MRU","SOS"];
+  var cg=document.getElementById("curGrid");
+  curs.forEach(function(c){var el=document.createElement("span");el.className="cur";el.textContent=c;cg.appendChild(el);});
+
+  /* ---- nav solidify on scroll ---- */
+  var nav=document.getElementById("nav");
+  function onScroll(){nav.classList.toggle("solid",window.scrollY>40);}
+  onScroll();window.addEventListener("scroll",onScroll,{passive:true});
+
+  /* ---- reveal on scroll ---- */
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        en.target.classList.add("in");
+        if(en.target.id==="escrowFlow")en.target.classList.add("lit");
+        io.unobserve(en.target);
+      }
+    });
+  },{threshold:.14});
+  document.querySelectorAll(".reveal").forEach(function(el){io.observe(el);});
+  var ef=document.getElementById("escrowFlow");if(ef)io.observe(ef);
+})();
+</script>
+<script>
+/* ================= BENZUKO APP ================= */
+(function(){
+"use strict";
+
+/* ---------- storage ---------- */
+var LS = (function(){ try{ var k="_bz";localStorage.setItem(k,"1");localStorage.removeItem(k);return localStorage; }catch(e){ return null; } })();
+function load(){ if(LS){ try{ var s=JSON.parse(LS.getItem("bz_store")); if(s) return s; }catch(e){} } return null; }
+function persist(){ if(LS){ try{ LS.setItem("bz_store",JSON.stringify(store)); }catch(e){} } }
+
+/* ---------- seed ---------- */
+function seed(){
+  return {
+    authed:false,
+    user:{ name:"", email:"", initials:"", tier:0, twofa:false, risk:12, trust:0 },
+    role:"buyer",
+    theme:"light",
+    kycStep:0,
+    kyc:{ contact:false, doc:null, selfie:false, aml:false },
+    wallets:[
+      {asset:"USDT",label:"Tether",bal:1840.50,fiat:1840.50,chg:0.1},
+      {asset:"PayPal",label:"PayPal balance",bal:620.00,fiat:620.00,chg:0.4},
+      {asset:"Wise",label:"Wise balance",bal:0,fiat:0,chg:0},
+      {asset:"BTC",label:"Bitcoin",bal:0.0142,fiat:912.18,chg:1.2},
+      {asset:"BDT",label:"Taka",bal:14200,fiat:118.33,chg:-0.1}
+    ],
+    trades:[
+      {id:"TX-4821",side:"buy",asset:"USDT",amt:500,price:119.85,cur:"BDT",cp:"Rahim T.",method:"Wise",status:"done",ts:Date.now()-86400000*2},
+      {id:"TX-4790",side:"sell",asset:"PayPal",amt:200,price:0.94,cur:"USD",cp:"Lena M.",method:"Bank",status:"disputed",ts:Date.now()-86400000}
+    ],
+    cards:[],
+    apiKeys:[{id:"pk_live_9f2a4c",label:"Production",created:"2026-05-11",revealed:false}],
+    webhooks:[{url:"https://api.mystore.com/bz/hook",events:"escrow.*, payout.*",status:"active"}],
+    notifications:3,
+    audit:[
+      {t:"login",who:"you",detail:"New session · Dhaka, BD",ts:Date.now()-3600000},
+      {t:"escrow.release",who:"Karim S.",detail:"TX-4712 released · 300 USDT",ts:Date.now()-7200000}
+    ],
+    sessions:[
+      {device:"Redmi Note 10 Pro · Chrome",loc:"Dhaka, BD",current:true},
+      {device:"Windows · Firefox",loc:"Dubai, AE",current:false}
+    ]
+  };
+}
+var store = load() || seed();
+
+/* ---------- p2p offers ---------- */
+var OFFERS = {
+  buy:[
+    {n:"Rahim T.",i:"RT",c:99.8,o:12940,p:119.85,av:4800,lim:"500 – 50,000",m:["Wise","bKash","Nagad"]},
+    {n:"Aisha K.",i:"AK",c:99.6,o:8102,p:119.90,av:2300,lim:"1,000 – 40,000",m:["PayPal","Bank"]},
+    {n:"Yusuf A.",i:"YA",c:98.9,o:5551,p:120.02,av:9100,lim:"500 – 90,000",m:["Skrill","Wise"]},
+    {n:"Nadia B.",i:"NB",c:100,o:21300,p:120.10,av:15000,lim:"2,000 – 120,000",m:["Payoneer","Bank"]}
+  ],
+  sell:[
+    {n:"Karim S.",i:"KS",c:99.9,o:18220,p:119.40,av:6200,lim:"500 – 60,000",m:["Wise","Nagad"]},
+    {n:"Lena M.",i:"LM",c:99.5,o:7640,p:119.30,av:3400,lim:"1,000 – 35,000",m:["PayPal","Skrill"]},
+    {n:"Tariq H.",i:"TH",c:98.7,o:4010,p:119.15,av:8700,lim:"500 – 80,000",m:["Bank","Payoneer"]},
+    {n:"Sofia R.",i:"SR",c:100,o:25900,p:119.05,av:12500,lim:"2,000 – 100,000",m:["bKash","Wise"]}
+  ]
+};
+
+/* ---------- helpers ---------- */
+function $(s,r){return (r||document).querySelector(s);}
+function money(n){return n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}
+function initials(name){var p=name.trim().split(/\s+/);return ((p[0]||"")[0]||""+"").toUpperCase()+((p[1]||"")[0]||"").toUpperCase();}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+var TIER_LIMIT=["$0 · verify to trade","$1,000 / day","$25,000 / day","$250,000 / day"];
+var ICON={
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>',
+  wallet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M16 12h3"/></svg>',
+  p2p:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>',
+  card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>',
+  orders:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 6h11M8 12h11M8 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>',
+  kyc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="3"/><path d="M6 20a6 6 0 0112 0"/></svg>',
+  merchant:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9l1-4h16l1 4M4 9v11h16V9M4 9h16"/></svg>',
+  admin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg>',
+  mod:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6l9-3 9 3M5 10h14M7 10v8M17 10v8M4 18h16"/></svg>',
+  api:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 6l-2 12"/></svg>',
+  set:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>',
+  bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9a6 6 0 1112 0c0 5 2 6 2 6H4s2-1 2-6M10 21h4"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>',
+  sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1 1M18 18l1 1M19 5l-1 1M6 18l-1 1"/></svg>',
+  menu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>'
+};
+
+/* ---------- roots ---------- */
+var appEl=document.createElement("div"); appEl.id="bzApp"; document.body.appendChild(appEl);
+var authEl=document.createElement("div"); authEl.id="bzAuth"; authEl.className="bz-auth"; document.body.appendChild(authEl);
+var toastEl=document.createElement("div"); toastEl.className="bz-toast"; document.body.appendChild(toastEl);
+var toastT;
+function toast(msg){ toastEl.textContent=msg; toastEl.classList.add("on"); clearTimeout(toastT); toastT=setTimeout(function(){toastEl.classList.remove("on");},2600); }
+function applyTheme(){ appEl.classList.toggle("bz-dark",store.theme==="dark"); authEl.classList.toggle("bz-dark",store.theme==="dark"); }
+
+/* ---------- navigation ---------- */
+function go(hash){ location.hash=hash; }
+function logo(){ return '<a class="logo" data-act="landing"><svg class="mark"><use href="#benzuko-b"/></svg><span class="word">benzuko</span></a>'; }
+
+/* ================= AUTH ================= */
+function authSignup(){
+  authEl.classList.add("on"); document.body.classList.add("bz-locked");
+  authEl.innerHTML=
+    logo().replace('class="logo"','class="logo" style="margin-bottom:26px"')+
+    '<h2>Create your account</h2><p class="sub">Start trading in minutes. Global payments, digital freedom.</p>'+
+    '<div class="bz-field"><label>Full name</label><input class="bz-input" id="suName" placeholder="Ada Rahman"></div>'+
+    '<div class="bz-field"><label>Email</label><input class="bz-input" id="suEmail" type="email" placeholder="you@email.com"></div>'+
+    '<div class="bz-field"><label>Password</label><input class="bz-input" id="suPass" type="password" placeholder="••••••••"></div>'+
+    '<div class="bz-err" id="suErr"></div>'+
+    '<button class="btn btn-solid bz-btn" data-act="do-signup">Create account</button>'+
+    '<div class="bz-oauth"><button data-act="oauth">Google</button><button data-act="oauth">Apple</button><button data-act="oauth">GitHub</button></div>'+
+    '<div class="swap">Already have an account? <a data-act="to-login">Sign in</a></div>';
+}
+function authLogin(){
+  authEl.classList.add("on"); document.body.classList.add("bz-locked");
+  authEl.innerHTML=
+    logo().replace('class="logo"','class="logo" style="margin-bottom:26px"')+
+    '<h2>Welcome back</h2><p class="sub">Sign in to your benzuko account.</p>'+
+    '<div class="bz-field"><label>Email</label><input class="bz-input" id="liEmail" type="email" placeholder="you@email.com"></div>'+
+    '<div class="bz-field"><label>Password</label><input class="bz-input" id="liPass" type="password" placeholder="••••••••"></div>'+
+    '<div class="bz-err" id="liErr"></div>'+
+    '<button class="btn btn-solid bz-btn" data-act="do-login">Sign in</button>'+
+    '<div class="bz-oauth"><button data-act="oauth">Google</button><button data-act="oauth">Apple</button><button data-act="oauth">GitHub</button></div>'+
+    '<div class="swap">New to benzuko? <a data-act="to-signup">Create account</a></div>';
+}
+function auth2fa(){
+  authEl.classList.add("on"); document.body.classList.add("bz-locked");
+  authEl.innerHTML=
+    logo().replace('class="logo"','class="logo" style="margin-bottom:26px"')+
+    '<h2>Verify it\'s you</h2><p class="sub">Enter the 6-digit code from your authenticator app.</p>'+
+    '<div class="bz-otp" id="otp">'+[0,1,2,3,4,5].map(function(){return '<input maxlength="1" inputmode="numeric">';}).join("")+'</div>'+
+    '<div class="bz-err" id="tfErr"></div>'+
+    '<button class="btn btn-solid bz-btn" data-act="do-2fa">Verify</button>'+
+    '<div class="swap"><a data-act="skip-2fa">Skip for now</a></div>';
+  var ins=authEl.querySelectorAll("#otp input");
+  ins.forEach(function(inp,idx){ inp.addEventListener("input",function(){ if(inp.value&&ins[idx+1])ins[idx+1].focus(); }); });
+  ins[0].focus();
+}
+function closeAuth(){ authEl.classList.remove("on"); }
+
+/* ================= APP SHELL ================= */
+function navItems(){
+  var role=store.role;
+  var base=[["","home","Dashboard"],["wallet","wallet","Wallet"],["p2p","p2p","P2P exchange"],["orders","orders","Orders"],["cards","card","Virtual cards"]];
+  var trust=[["kyc","kyc","Identity & KYC"]];
+  var roleItems=[];
+  if(role==="merchant")roleItems=[["merchant","merchant","Merchant BI"],["api","api","API & sandbox"]];
+  if(role==="admin")roleItems=[["admin","admin","Admin console"]];
+  if(role==="moderator")roleItems=[["moderator","mod","Dispute desk"]];
+  return {base:base,trust:trust,role:roleItems};
+}
+function sideHTML(active){
+  var it=navItems();
+  function grp(title,items){ if(!items.length)return "";
+    return '<div class="bz-nav-group"><div class="gh">'+title+'</div>'+items.map(function(x){
+      var route=x[0]; var on=(route===active);
+      var badge=(route==="orders")?'<span class="badge">'+store.trades.length+'</span>':(route==="moderator")?'<span class="badge">1</span>':"";
+      return '<div class="bz-navlink'+(on?" active":"")+'" data-nav="'+route+'">'+ICON[x[1]]+'<span>'+x[2]+'</span>'+badge+'</div>';
+    }).join("")+'</div>';
+  }
+  return '<div class="bz-side" id="bzSide">'+logo()+
+    grp("Trade",it.base)+grp("Compliance",it.trust)+ (it.role.length?grp("Workspace",it.role):"")+
+    grp("Account",[["settings","set","Settings"]])+
+    '<div class="bz-side-foot"><div class="bz-navlink" data-act="logout">'+ICON.set.replace("circle","circle")+'<span>Sign out</span></div></div></div>';
+}
+function shell(active,view){
+  var u=store.user;
+  applyTheme();
+  appEl.innerHTML='<div class="bz-shell">'+sideHTML(active)+
+    '<div class="bz-main"><div class="bz-scrim" data-act="close-side"></div>'+
+    '<div class="bz-top">'+
+      '<button class="bz-icobtn bz-mobtoggle" data-act="open-side">'+ICON.menu+'</button>'+
+      '<div class="bz-search">'+ICON.search+'<span>Search offers, trades, users…</span></div>'+
+      '<div class="bz-role"><span style="font-family:var(--mono);font-size:11px;color:var(--graphite)">VIEW AS</span>'+
+        '<select data-act="role">'+["buyer","seller","merchant","moderator","admin"].map(function(r){return '<option'+(r===store.role?" selected":"")+'>'+r+'</option>';}).join("")+'</select></div>'+
+      '<button class="bz-icobtn" data-act="theme">'+ICON.sun+'</button>'+
+      '<button class="bz-icobtn" data-act="notif">'+ICON.bell+(store.notifications?'<span class="dot"></span>':"")+'</button>'+
+      '<div class="bz-ava">'+esc(u.initials||"BZ")+'</div>'+
+    '</div><div class="bz-view" id="bzView">'+view+'</div></div></div>';
+}
+
+/* ================= VIEWS ================= */
+function ph(title,sub,right){ return '<div class="bz-ph" style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><div><h1>'+title+'</h1>'+(sub?'<p>'+sub+'</p>':"")+'</div>'+(right||"")+'</div>'; }
+function statPill(s){ var map={locked:"Escrow locked",paid:"Buyer paid",done:"Completed",disputed:"In dispute"}; var cls={locked:"locked",paid:"paid",done:"done",disputed:"disp"}; return '<span class="bz-stat '+cls[s]+'">'+map[s]+'</span>'; }
+
+function vDashboard(){
+  var u=store.user, total=store.wallets.reduce(function(a,w){return a+w.fiat;},0);
+  var openTrades=store.trades.filter(function(t){return t.status==="locked"||t.status==="paid";});
+  var tierBadge='<span class="bz-tier-badge">KYC Tier '+u.tier+' · '+TIER_LIMIT[u.tier]+'</span>';
+  var kycNudge = u.tier<1 ? '<div class="bz-panel" style="border-color:var(--ink)"><div class="bz-row"><div class="grow"><div class="t1">Verify your identity to start trading</div><div class="t2">You\'re on Tier 0. Complete KYC to unlock the marketplace.</div></div><button class="bz-btn2 solid" data-nav="kyc">Verify now</button></div></div>' : "";
+  var recent=store.trades.slice(0,4).map(function(t){
+    return '<div class="bz-row" data-nav="trade/'+t.id+'"><div class="grow"><div class="t1">'+t.side.toUpperCase()+' '+t.amt+' '+t.asset+' · '+esc(t.cp)+'</div><div class="t2">'+t.id+' · '+t.method+'</div></div>'+statPill(t.status)+'</div>';
+  }).join("");
+  return ph("Good to see you, "+esc(u.name.split(" ")[0]||"trader"),"Here's your account at a glance.",tierBadge)+
+    kycNudge+
+    '<div class="bz-cards">'+
+      '<div class="bz-card"><div class="k">Portfolio value</div><div class="v"><small>$</small>'+money(total)+'</div><div class="d up">▲ 1.4% this week</div></div>'+
+      '<div class="bz-card"><div class="k">Open trades</div><div class="v">'+openTrades.length+'</div><div class="d">held in escrow</div></div>'+
+      '<div class="bz-card"><div class="k">AI risk score</div><div class="v">'+u.risk+'<small>/100</small></div><div class="d up">low risk</div></div>'+
+      '<div class="bz-card"><div class="k">Trust index</div><div class="v">'+(u.trust||("A"))+'</div><div class="d">'+(store.trades.filter(function(t){return t.status==="done";}).length)+' completed</div></div>'+
+    '</div>'+
+    '<div class="bz-grid2">'+
+      '<div class="bz-panel"><div class="bz-panel-h"><h3>Recent trades</h3><button class="bz-btn2 sm" data-nav="orders">View all</button></div><div class="bz-panel-b">'+(recent||'<div class="bz-empty">No trades yet</div>')+'</div></div>'+
+      '<div class="bz-panel"><div class="bz-panel-h"><h3>Quick actions</h3></div><div class="bz-panel-b">'+
+        '<div class="bz-row"><div class="grow"><div class="t1">Buy USDT</div><div class="t2">from verified sellers</div></div><button class="bz-btn2 solid" data-nav="p2p">Open P2P</button></div>'+
+        '<div class="bz-row"><div class="grow"><div class="t1">Issue a virtual card</div><div class="t2">spend your balance anywhere</div></div><button class="bz-btn2" data-nav="cards">Create</button></div>'+
+        '<div class="bz-row"><div class="grow"><div class="t1">Add funds</div><div class="t2">deposit to your wallet</div></div><button class="bz-btn2" data-nav="wallet">Wallet</button></div>'+
+      '</div></div>'+
+    '</div>';
+}
+
+function sparkline(){
+  var pts=[8,12,10,16,14,20,18,26,24,30,28,34];
+  var w=280,hh=64,max=Math.max.apply(null,pts),min=Math.min.apply(null,pts);
+  var d=pts.map(function(p,i){var x=i/(pts.length-1)*w;var y=hh-((p-min)/(max-min))*hh;return (i?"L":"M")+x.toFixed(1)+" "+y.toFixed(1);}).join(" ");
+  return '<svg viewBox="0 0 '+w+' '+hh+'" width="100%" height="64" preserveAspectRatio="none"><path d="'+d+'" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+}
+function vWallet(){
+  var total=store.wallets.reduce(function(a,w){return a+w.fiat;},0);
+  var rows=store.wallets.map(function(w){
+    return '<div class="bz-row"><div class="bz-ava" style="background:var(--paper-2);color:var(--ink);font-family:var(--mono);font-size:12px">'+w.asset.slice(0,3)+'</div><div class="grow"><div class="t1">'+esc(w.label)+'</div><div class="t2">'+w.bal+' '+w.asset+'</div></div><div class="amt">$'+money(w.fiat)+'</div></div>';
+  }).join("");
+  return ph("Wallet","Every balance in one portfolio.")+
+    '<div class="bz-grid2"><div class="bz-panel"><div class="bz-panel-h"><h3>Total balance</h3></div><div style="padding:20px"><div style="font-family:var(--display);font-weight:500;font-size:40px;letter-spacing:-.02em">$'+money(total)+'</div><div style="color:var(--graphite);margin:14px 0">'+sparkline()+'</div><div style="display:flex;gap:10px"><button class="bz-btn2 solid" data-act="deposit">Deposit</button><button class="bz-btn2" data-act="withdraw">Withdraw</button></div></div></div>'+
+    '<div class="bz-panel"><div class="bz-panel-h"><h3>Assets</h3><button class="bz-btn2 sm" data-nav="p2p">Trade</button></div><div class="bz-panel-b">'+rows+'</div></div></div>';
+}
+
+function offerRow(o,side){
+  var check='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" style="flex-shrink:0"><path d="M20 6L9 17l-5-5"/></svg>';
+  var pm=o.m.map(function(m){return '<span class="pm">'+m+'</span>';}).join("");
+  var cls=side==="buy"?"b-buy":"b-sell";var label=(side==="buy"?"Buy":"Sell");
+  return '<div class="book-row"><div class="seller"><div class="avatar">'+o.i+'</div><div><div class="s-name">'+esc(o.n)+check+'</div><div class="s-sub">'+o.o+' orders · '+o.c.toFixed(1)+'%</div></div></div>'+
+    '<div class="price"><div class="p-val">'+o.p.toFixed(2)+'</div><div class="p-cur">BDT / USDT</div></div>'+
+    '<div class="limits">'+o.av.toLocaleString()+' USDT<br><span>'+o.lim+' BDT</span></div>'+
+    '<div class="pmethods">'+pm+'</div>'+
+    '<div class="act"><button class="btn '+cls+'" data-act="open-trade" data-side="'+side+'" data-cp="'+esc(o.n)+'" data-price="'+o.p+'" data-method="'+o.m[0]+'">'+label+' USDT</button></div></div>';
+}
+function vP2P(){
+  if(store.user.tier<1){
+    return ph("P2P exchange","Match with verified sellers worldwide.")+
+      '<div class="bz-panel"><div class="bz-empty">'+ICON.kyc+'<div class="t1" style="font-size:16px;color:var(--ink)">Verify your identity to trade</div><p style="margin:8px 0 16px">P2P trading requires KYC Tier 1 or higher.</p><button class="bz-btn2 solid" data-nav="kyc">Start verification</button></div></div>';
+  }
+  var side=store._side||"buy";
+  var rows=OFFERS[side].map(function(o){return offerRow(o,side);}).join("");
+  return ph("P2P exchange","Order book · USDT / BDT")+
+    '<div class="book" style="border-color:var(--line-lt)"><div class="book-top" style="border-color:var(--line-lt)">'+
+      '<div class="side-tabs" style="border-color:var(--line-lt)"><button class="'+(side==="buy"?"active":"")+'" data-act="side" data-v="buy" style="color:'+(side==="buy"?"var(--ink)":"var(--graphite)")+';background:'+(side==="buy"?"var(--paper-2)":"transparent")+'">Buy</button><button class="'+(side==="sell"?"active":"")+'" data-act="side" data-v="sell" style="color:'+(side==="sell"?"var(--ink)":"var(--graphite)")+';background:'+(side==="sell"?"var(--paper-2)":"transparent")+'">Sell</button></div>'+
+      '<div class="book-filters"><span class="mini-sel" style="border-color:var(--line-lt);color:var(--graphite)">BDT ▾</span><span class="mini-sel" style="border-color:var(--line-lt);color:var(--graphite)">All methods ▾</span><span class="mini-sel" style="border-color:var(--line-lt);color:var(--graphite)">Verified only ▾</span></div></div>'+
+      '<div class="book-headrow" style="border-color:var(--line-lt);color:var(--graphite)"><span>Seller</span><span>Price</span><span>Available / Limit</span><span>Payment</span><span></span></div>'+
+      '<div style="color:var(--ink)">'+rows+'</div></div>'+
+    '<style>#bzView .book-row{border-color:var(--line-lt)!important;color:var(--ink)}#bzView .s-sub,#bzView .p-cur,#bzView .limits span{color:var(--graphite)}#bzView .pm{border-color:var(--line-lt);color:var(--graphite)}#bzView .avatar{background:var(--paper-2);color:var(--ink)}#bzView .b-buy{background:var(--ink);color:var(--paper)}#bzView .b-sell{border-color:var(--line-lt);color:var(--ink)}</style>';
+}
+
+/* --- escrow trade room --- */
+function findTrade(id){ for(var i=0;i<store.trades.length;i++)if(store.trades[i].id===id)return store.trades[i]; return null; }
+var chatTimer;
+function vTrade(id){
+  var t=findTrade(id); if(!t) return ph("Trade not found","")+'<button class="bz-btn2" data-nav="orders">Back to orders</button>';
+  if(!t.chat) t.chat=[{by:"sys",m:"Escrow locked — "+t.amt+" "+t.asset+" is now held by benzuko."},{by:"them",m:"Hi! I've locked the funds. Please send the "+t.cur+" payment via "+t.method+" and mark as paid."}];
+  var youAreBuyer=(t.side==="buy");
+  var steps=[["Escrow locked",true],["Payment sent",t.status!=="locked"],["Funds released",t.status==="done"],["Dispute resolved",t.status==="done"&&t._wasDisp]];
+  var log=t.chat.map(function(c){return '<div class="bz-msg '+c.by+'">'+esc(c.m)+'</div>';}).join("");
+  var actions="";
+  if(t.status==="locked"&&youAreBuyer)actions='<button class="bz-btn2 solid" data-act="mark-paid" data-id="'+t.id+'" style="width:100%;margin-bottom:8px">I have paid</button>';
+  if(t.status==="paid"&&!youAreBuyer)actions='<button class="bz-btn2 solid" data-act="release" data-id="'+t.id+'" style="width:100%;margin-bottom:8px">Release funds</button>';
+  if(t.status==="paid"&&youAreBuyer)actions='<div class="t2" style="text-align:center;margin-bottom:8px">Waiting for seller to release…</div>';
+  if(t.status==="locked"&&!youAreBuyer)actions='<div class="t2" style="text-align:center;margin-bottom:8px">Waiting for buyer to pay…</div>';
+  if(t.status!=="done"&&t.status!=="disputed")actions+='<button class="bz-btn2 danger" data-act="dispute" data-id="'+t.id+'" style="width:100%">Open dispute</button>';
+  if(t.status==="done")actions='<div class="bz-stat done" style="width:100%;justify-content:center">Trade complete</div>';
+  if(t.status==="disputed")actions='<div class="bz-stat disp" style="width:100%;justify-content:center;margin-bottom:8px">Under moderator review</div><button class="bz-btn2" data-nav="moderator" style="width:100%">Open dispute desk</button>';
+  return ph(t.side.toUpperCase()+" "+t.amt+" "+t.asset,t.id+" · with "+esc(t.cp),'<button class="bz-btn2 sm" data-nav="orders">Back</button>')+
+    '<div class="bz-trade"><div class="bz-panel"><div class="bz-panel-h"><h3>Trade chat</h3>'+statPill(t.status)+'</div>'+
+      '<div class="bz-chat"><div class="bz-chat-log" id="bzChat">'+log+'</div>'+
+      '<div class="bz-chat-in"><input id="bzMsg" placeholder="Message '+esc(t.cp.split(" ")[0])+'…"><button class="bz-btn2 solid" data-act="send-msg" data-id="'+t.id+'">Send</button></div></div></div>'+
+    '<div class="bz-escrow-side"><div class="bz-panel"><div style="padding:20px"><div class="k" style="font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--graphite);letter-spacing:.08em">In escrow</div>'+
+      '<div class="big">'+t.amt+' <small style="font-size:16px;color:var(--graphite)">'+t.asset+'</small></div>'+
+      '<div class="bz-timer">≈ '+money(t.amt*t.price)+' '+t.cur+' · '+t.method+'</div>'+
+      '<div class="bz-steps">'+steps.map(function(s){return '<div class="s'+(s[1]?" done":"")+'"><span class="b">'+(s[1]?"✓":"")+'</span>'+s[0]+'</div>';}).join("")+'</div>'+
+      '<div style="margin-top:14px">'+actions+'</div></div></div></div></div>';
+}
+
+/* --- kyc wizard --- */
+function vKYC(){
+  var k=store.kyc, step=store.kycStep;
+  var labels=["Contact","Document","Selfie","Screening"];
+  var stepsHTML=labels.map(function(l,i){var cls=i<step?"done":(i===step?"active":"");return '<div class="ks '+cls+'"><div class="n">Step '+(i+1)+'</div><div class="l">'+l+'</div></div>';}).join("");
+  var body="";
+  if(store.user.tier>=3){ body='<div class="bz-empty">'+ICON.kyc+'<div class="t1" style="color:var(--ink);font-size:16px">You\'re fully verified — Tier 3</div><p style="margin-top:8px">Daily limit '+TIER_LIMIT[3]+'. AML & OFAC checks passed.</p></div>'; }
+  else if(step===0){ body='<div class="bz-field"><label>Phone number</label><input class="bz-input" id="kPhone" placeholder="+880 1XXX-XXXXXX"></div><p style="color:var(--graphite);font-size:13px;margin:8px 0 16px">We\'ll send a one-time code to confirm your email and phone.</p><button class="bz-btn2 solid" data-act="kyc-next" data-s="0">Verify contact → Tier 1</button>'; }
+  else if(step===1){ body='<div class="bz-field"><label>Document type</label><select class="bz-input" id="kDoc"><option>Passport</option><option>National ID (NID)</option><option>Driving licence</option></select></div><div class="bz-drop" data-act="kyc-upload">Tap to upload front & back<br><span class="bz-scan" id="kScan"></span></div><button class="bz-btn2 solid" data-act="kyc-next" data-s="1" style="margin-top:16px">Run OCR & continue</button>'; }
+  else if(step===2){ body='<div class="bz-drop" data-act="kyc-selfie">Take a liveness selfie<br><span class="bz-scan" id="kScan"></span></div><p style="color:var(--graphite);font-size:13px;margin:12px 0">Video KYC verifies you\'re a real person, live.</p><button class="bz-btn2 solid" data-act="kyc-next" data-s="2">Submit selfie → Tier 2</button>'; }
+  else if(step===3){ body='<div class="bz-panel" style="margin:0"><div class="bz-row"><div class="grow"><div class="t1">AML database</div><div class="t2" id="amlA">Ready to screen</div></div><span class="bz-tag" id="amlB">pending</span></div><div class="bz-row"><div class="grow"><div class="t1">OFAC / sanctions</div><div class="t2" id="ofacA">Ready to screen</div></div><span class="bz-tag" id="ofacB">pending</span></div></div><button class="bz-btn2 solid" data-act="kyc-screen" style="margin-top:16px">Run screening → Tier 3</button>'; }
+  return ph("Identity & KYC","Verify once, trade everywhere.",'<span class="bz-tier-badge">Tier '+store.user.tier+'</span>')+
+    '<div class="bz-kyc-steps">'+stepsHTML+'</div><div class="bz-panel"><div style="padding:22px">'+body+'</div></div>';
+}
+
+/* --- cards --- */
+function vCards(){
+  var cards=store.cards.map(function(c,i){
+    return '<div class="bz-vcard'+(c.frozen?" frozen":"")+'"><div style="display:flex;justify-content:space-between"><span class="word" style="font-family:var(--display);font-size:18px;color:#fff">benzuko</span><span style="font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.6)">VIRTUAL</span></div>'+
+      '<div class="vnum">'+c.num+'</div><div class="vrow"><span>'+esc(c.holder)+'</span><span>'+c.exp+'</span><span>$'+money(c.bal)+'</span></div></div>'+
+      '<div style="display:flex;gap:10px;margin-top:12px"><button class="bz-btn2 sm" data-act="freeze" data-i="'+i+'">'+(c.frozen?"Unfreeze":"Freeze")+'</button><button class="bz-btn2 sm danger" data-act="del-card" data-i="'+i+'">Delete</button></div>';
+  }).join("");
+  return ph("Virtual cards","Spend your balance anywhere cards are accepted.",'<button class="bz-btn2 solid" data-act="new-card">Issue new card</button>')+
+    (store.cards.length? '<div class="bz-cards" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">'+cards+'</div>' : '<div class="bz-panel"><div class="bz-empty">'+ICON.card+'<div class="t1" style="color:var(--ink);font-size:16px">No cards yet</div><p style="margin:8px 0 16px">Issue a virtual card funded by your wallet.</p><button class="bz-btn2 solid" data-act="new-card">Issue your first card</button></div></div>');
+}
+
+/* --- orders --- */
+function vOrders(){
+  var rows=store.trades.map(function(t){
+    return '<tr data-nav="trade/'+t.id+'" style="cursor:pointer"><td class="bz-mono">'+t.id+'</td><td>'+t.side.toUpperCase()+'</td><td>'+t.amt+' '+t.asset+'</td><td>'+esc(t.cp)+'</td><td>'+t.method+'</td><td>'+statPill(t.status)+'</td></tr>';
+  }).join("");
+  return ph("Orders","Your full trade history.",'<button class="bz-btn2" data-act="export-csv">Export CSV</button>')+
+    '<div class="bz-panel"><table class="bz-table"><thead><tr><th>ID</th><th>Side</th><th>Amount</th><th>Counterparty</th><th>Method</th><th>Status</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+}
+
+/* --- merchant --- */
+function vMerchant(){
+  var keys=store.apiKeys.map(function(k){
+    return '<div class="bz-row"><div class="grow"><div class="t1">'+esc(k.label)+'</div><div class="t2 bz-mono">'+(k.revealed?k.id:k.id.slice(0,10)+"••••••••")+' · created '+k.created+'</div></div><button class="bz-btn2 sm" data-act="reveal-key" data-id="'+k.id+'">'+(k.revealed?"Hide":"Reveal")+'</button><button class="bz-btn2 sm" data-act="rotate-key" data-id="'+k.id+'">Rotate</button></div>';
+  }).join("");
+  var hooks=store.webhooks.map(function(w){return '<div class="bz-row"><div class="grow"><div class="t1 bz-mono">'+esc(w.url)+'</div><div class="t2">'+esc(w.events)+'</div></div><span class="bz-stat done">'+w.status+'</span></div>';}).join("");
+  return ph("Merchant BI","Payouts, keys and webhooks.",'<span class="bz-tier-badge">Sandbox on</span>')+
+    '<div class="bz-cards"><div class="bz-card"><div class="k">Volume · 30d</div><div class="v"><small>$</small>84,210</div><div class="d up">▲ 12%</div></div><div class="bz-card"><div class="k">Payouts</div><div class="v">1,204</div><div class="d">98.4% success</div></div><div class="bz-card"><div class="k">Avg settle</div><div class="v">3.8<small>min</small></div><div class="d">escrow to release</div></div><div class="bz-card"><div class="k">Chargebacks</div><div class="v">0.02<small>%</small></div><div class="d up">below market</div></div></div>'+
+    '<div class="bz-panel"><div class="bz-panel-h"><h3>API keys</h3><button class="bz-btn2 sm" data-act="new-key">New key</button></div><div class="bz-panel-b">'+keys+'</div></div>'+
+    '<div class="bz-panel"><div class="bz-panel-h"><h3>Webhooks</h3><button class="bz-btn2 sm" data-nav="api">Configure</button></div><div class="bz-panel-b">'+hooks+'</div></div>';
+}
+function vAPI(){
+  return ph("API & sandbox","Test escrow flows without moving real money.")+
+    '<div class="bz-panel"><div class="bz-panel-h"><h3>Try an escrow call</h3><span class="bz-tag">POST /v1/escrow</span></div><div style="padding:18px"><div class="code" style="margin:0"><div class="code-top"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fname">sandbox</span></div><pre id="apiOut"><span class="cm">// press Run to simulate</span></pre></div><button class="bz-btn2 solid" data-act="run-api" style="margin-top:14px">Run request</button></div></div>';
+}
+
+/* --- admin --- */
+function vAdmin(){
+  var disp=store.trades.filter(function(t){return t.status==="disputed";});
+  var audit=store.audit.map(function(a){return '<div class="bz-row"><div class="grow"><div class="t1 bz-mono">'+esc(a.t)+'</div><div class="t2">'+esc(a.detail)+' · '+esc(a.who)+'</div></div><span class="t2">'+timeAgo(a.ts)+'</span></div>';}).join("");
+  return ph("Admin console","Platform health & controls.")+
+    '<div class="bz-cards"><div class="bz-card"><div class="k">Active users</div><div class="v">48,210</div><div class="d up">▲ 3.1%</div></div><div class="bz-card"><div class="k">Escrow held</div><div class="v"><small>$</small>2.1M</div><div class="d">live</div></div><div class="bz-card"><div class="k">Open disputes</div><div class="v">'+disp.length+'</div><div class="d">need review</div></div><div class="bz-card"><div class="k">Flagged (AI)</div><div class="v">7</div><div class="d dn">▲ 2</div></div></div>'+
+    '<div class="bz-panel"><div class="bz-panel-h"><h3>Audit log</h3><span class="bz-tag">immutable</span></div><div class="bz-panel-b">'+audit+'</div></div>';
+}
+/* --- moderator --- */
+function vModerator(){
+  var disp=store.trades.filter(function(t){return t.status==="disputed";});
+  if(!disp.length) return ph("Dispute desk","Resolve appeals fairly.")+'<div class="bz-panel"><div class="bz-empty">'+ICON.mod+'<div class="t1" style="color:var(--ink);font-size:16px">No open appeals</div><p style="margin-top:8px">Nice — the queue is clear.</p></div></div>';
+  var rows=disp.map(function(t){
+    return '<div class="bz-panel"><div class="bz-panel-h"><h3>'+t.id+' · '+t.amt+' '+t.asset+'</h3><span class="bz-stat disp">disputed</span></div><div style="padding:18px"><div class="t2" style="margin-bottom:14px">Buyer and seller disagree on receipt of '+money(t.amt*t.price)+' '+t.cur+' via '+t.method+'. Review evidence and decide.</div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="bz-btn2 solid" data-act="resolve" data-id="'+t.id+'" data-to="buyer">Release to buyer</button><button class="bz-btn2" data-act="resolve" data-id="'+t.id+'" data-to="seller">Return to seller</button></div></div></div>';
+  }).join("");
+  return ph("Dispute desk","Resolve appeals fairly.",'<span class="bz-tier-badge">'+disp.length+' open</span>')+rows;
+}
+/* --- settings --- */
+function vSettings(){
+  var sess=store.sessions.map(function(s){return '<div class="bz-row"><div class="grow"><div class="t1">'+esc(s.device)+(s.current?' <span class="bz-tag">this device</span>':'')+'</div><div class="t2">'+esc(s.loc)+'</div></div>'+(s.current?'':'<button class="bz-btn2 sm danger" data-act="revoke">Revoke</button>')+'</div>';}).join("");
+  return ph("Settings","Profile, security and devices.")+
+    '<div class="bz-grid2"><div class="bz-panel"><div class="bz-panel-h"><h3>Profile</h3></div><div style="padding:20px"><div class="bz-field"><label>Name</label><input class="bz-input" value="'+esc(store.user.name)+'"></div><div class="bz-field"><label>Email</label><input class="bz-input" value="'+esc(store.user.email)+'"></div><div class="bz-field"><label>Appearance</label><button class="bz-btn2" data-act="theme">Switch to '+(store.theme==="dark"?"light":"dark")+' mode</button></div></div></div>'+
+    '<div class="bz-panel"><div class="bz-panel-h"><h3>Devices & sessions</h3></div><div class="bz-panel-b">'+sess+'</div></div></div>'+
+    '<div class="bz-panel"><div class="bz-panel-h"><h3>Security</h3></div><div class="bz-panel-b"><div class="bz-row"><div class="grow"><div class="t1">Two-factor authentication</div><div class="t2">'+(store.user.twofa?"Enabled via authenticator app":"Not enabled")+'</div></div><span class="bz-stat '+(store.user.twofa?"done":"disp")+'">'+(store.user.twofa?"on":"off")+'</span></div><div class="bz-row"><div class="grow"><div class="t1">Passkey</div><div class="t2">Hardware-backed sign-in</div></div><button class="bz-btn2 sm" data-act="passkey">Add passkey</button></div></div></div>';
+}
+
+function timeAgo(ts){ var s=(Date.now()-ts)/1000; if(s<3600)return Math.round(s/60)+"m ago"; if(s<86400)return Math.round(s/3600)+"h ago"; return Math.round(s/86400)+"d ago"; }
+
+/* ================= ROUTER ================= */
+function route(){
+  var h=location.hash.replace(/^#/,"");
+  // auth routes
+  if(h==="/signup"){ closeApp(); authSignup(); return; }
+  if(h==="/login"){ closeApp(); authLogin(); return; }
+  if(h==="/verify"){ closeApp(); auth2fa(); return; }
+  if(h.indexOf("/app")!==0){ closeApp(); closeAuth(); document.body.classList.remove("bz-locked"); return; }
+  // app routes — require auth
+  if(!store.authed){ authSignup(); return; }
+  closeAuth();
+  appEl.classList.add("on"); document.body.classList.add("bz-locked");
+  var sub=h.replace("/app","").replace(/^\//,""); // "", "wallet", "trade/TX-1"
+  var seg=sub.split("/");
+  var page=seg[0]||"";
+  var map={ "":vDashboard, wallet:vWallet, p2p:vP2P, orders:vOrders, cards:vCards, kyc:vKYC, merchant:vMerchant, api:vAPI, admin:vAdmin, moderator:vModerator, settings:vSettings };
+  var active=page, view;
+  if(page==="trade"){ view=vTrade(seg[1]); active=""; }
+  else if(map[page]){ view=map[page](); }
+  else { view=vDashboard(); active=""; }
+  shell(active,view);
+  var log=$("#bzChat"); if(log)log.scrollTop=log.scrollHeight;
+}
+function closeApp(){ appEl.classList.remove("on"); }
+
+/* ================= ACTIONS ================= */
+document.addEventListener("click",function(e){
+  var nav=e.target.closest("[data-nav]");
+  if(nav){ e.preventDefault(); go("#/app/"+nav.getAttribute("data-nav")); return; }
+  var el=e.target.closest("[data-act]"); if(!el) return;
+  var act=el.getAttribute("data-act");
+  // landing CTA links (anchors like #signup etc.)
+  switch(act){
+    case "landing": go("#top"); closeApp(); closeAuth(); document.body.classList.remove("bz-locked"); break;
+    case "to-login": authLogin(); break;
+    case "to-signup": authSignup(); break;
+    case "oauth": store.authed=true; store.user={name:"Ada Rahman",email:"ada@email.com",initials:"AR",tier:0,twofa:true,risk:12,trust:"A"}; persist(); go("#/app"); break;
+    case "do-signup": {
+      var n=$("#suName").value.trim(),em=$("#suEmail").value.trim();
+      if(!n||!em||!$("#suPass").value){ $("#suErr").textContent="Please fill in all fields."; return; }
+      store.user={name:n,email:em,initials:initials(n),tier:0,twofa:false,risk:12,trust:"A"}; store.authed=false; persist();
+      auth2fa(); break;
+    }
+    case "do-login": {
+      var em2=$("#liEmail").value.trim();
+      if(!em2||!$("#liPass").value){ $("#liErr").textContent="Enter your email and password."; return; }
+      if(!store.user.name){ store.user={name:"Ada Rahman",email:em2,initials:"AR",tier:1,twofa:true,risk:12,trust:"A"}; }
+      auth2fa(); break;
+    }
+    case "do-2fa": {
+      var code=Array.prototype.map.call(authEl.querySelectorAll("#otp input"),function(i){return i.value;}).join("");
+      if(code.length<6){ $("#tfErr").textContent="Enter all six digits."; return; }
+      store.authed=true; store.user.twofa=true; persist(); closeAuth(); go("#/app"); toast("Signed in securely"); break;
+    }
+    case "skip-2fa": store.authed=true; persist(); closeAuth(); go("#/app"); break;
+    case "logout": store.authed=false; persist(); closeApp(); go("#top"); document.body.classList.remove("bz-locked"); toast("Signed out"); break;
+    case "theme": store.theme=store.theme==="dark"?"light":"dark"; persist(); applyTheme(); route(); break;
+    case "notif": store.notifications=0; toast("You're all caught up"); route(); break;
+    case "open-side": var sd=$("#bzSide"),sc=$(".bz-scrim"); if(sd)sd.classList.add("open"); if(sc)sc.classList.add("on"); break;
+    case "close-side": var sd2=$("#bzSide"),sc2=$(".bz-scrim"); if(sd2)sd2.classList.remove("open"); if(sc2)sc2.classList.remove("on"); break;
+    case "side": store._side=el.getAttribute("data-v"); route(); break;
+    case "deposit": toast("Deposit address copied (demo)"); break;
+    case "withdraw": toast("Withdrawal requires KYC Tier 2 (demo)"); break;
+
+    /* --- trade / escrow --- */
+    case "open-trade": {
+      if(store.user.tier<1){ go("#/app/kyc"); toast("Verify your identity to trade"); return; }
+      var id="TX-"+Math.floor(1000+Math.random()*9000);
+      var price=parseFloat(el.getAttribute("data-price"));
+      var t={id:id,side:el.getAttribute("data-side"),asset:"USDT",amt:500,price:price,cur:"BDT",cp:el.getAttribute("data-cp"),method:el.getAttribute("data-method"),status:"locked",ts:Date.now()};
+      store.trades.unshift(t); persist(); go("#/app/trade/"+id); toast("Escrow locked — funds are safe"); break;
+    }
+    case "send-msg": {
+      var t2=findTrade(el.getAttribute("data-id")); var inp=$("#bzMsg"); if(!t2||!inp||!inp.value.trim())return;
+      t2.chat.push({by:"me",m:inp.value.trim()}); inp.value=""; persist(); route();
+      clearTimeout(chatTimer); chatTimer=setTimeout(function(){ t2.chat.push({by:"them",m:"Got it — checking now."}); persist(); if(location.hash.indexOf(t2.id)>-1)route(); },1400);
+      break;
+    }
+    case "mark-paid": { var t3=findTrade(el.getAttribute("data-id")); t3.status="paid"; t3.chat.push({by:"sys",m:"Buyer marked payment as sent."}); persist(); route(); toast("Seller notified"); break; }
+    case "release": { var t4=findTrade(el.getAttribute("data-id")); t4.status="done"; t4.chat.push({by:"sys",m:"Funds released. Trade complete."}); store.audit.unshift({t:"escrow.release",who:"you",detail:t4.id+" released · "+t4.amt+" "+t4.asset,ts:Date.now()}); persist(); route(); toast("Funds released ✓"); break; }
+    case "dispute": { var t5=findTrade(el.getAttribute("data-id")); t5.status="disputed"; t5._wasDisp=true; t5.chat.push({by:"sys",m:"Dispute opened. A moderator will review the evidence."}); persist(); route(); toast("Dispute opened — moderator notified"); break; }
+    case "resolve": { var t6=findTrade(el.getAttribute("data-id")); var to=el.getAttribute("data-to"); t6.status="done"; store.audit.unshift({t:"dispute.resolve",who:"moderator",detail:t6.id+" → "+to,ts:Date.now()}); persist(); route(); toast("Resolved in favour of "+to); break; }
+
+    /* --- kyc --- */
+    case "kyc-upload": { var s=$("#kScan"); if(s){s.textContent="Scanning document…"; setTimeout(function(){s.textContent="OCR: name & number extracted ✓";},1100);} break; }
+    case "kyc-selfie": { var s2=$("#kScan"); if(s2){s2.textContent="Liveness check…"; setTimeout(function(){s2.textContent="Face matched to document ✓";},1100);} break; }
+    case "kyc-next": {
+      var st=parseInt(el.getAttribute("data-s"),10);
+      store.kycStep=st+1; store.user.tier=Math.max(store.user.tier,st+1); persist();
+      if(store.kycStep>3)store.kycStep=3;
+      route(); toast("Upgraded to Tier "+store.user.tier); break;
+    }
+    case "kyc-screen": {
+      var aA=$("#amlA"),aB=$("#amlB"),oA=$("#ofacA"),oB=$("#ofacB");
+      if(aA){aA.textContent="Screening…";}
+      setTimeout(function(){ if(aB){aB.textContent="clear";aB.style.color="#1E8E5A";aA.textContent="No adverse media";} },800);
+      setTimeout(function(){ if(oB){oB.textContent="clear";oB.style.color="#1E8E5A";oA.textContent="Not on any sanctions list";} store.user.tier=3; store.kycStep=3; persist(); setTimeout(function(){route();toast("Fully verified — Tier 3");},700); },1500);
+      break;
+    }
+
+    /* --- cards --- */
+    case "new-card": {
+      var num="4821 "+String(Math.floor(1000+Math.random()*9000))+" •••• "+String(Math.floor(1000+Math.random()*9000));
+      store.cards.push({num:num,holder:store.user.name||"BENZUKO USER",exp:"08/29",bal:250,frozen:false}); persist(); route(); toast("Virtual card issued"); break;
+    }
+    case "freeze": { var c=store.cards[+el.getAttribute("data-i")]; c.frozen=!c.frozen; persist(); route(); break; }
+    case "del-card": { store.cards.splice(+el.getAttribute("data-i"),1); persist(); route(); toast("Card deleted"); break; }
+
+    /* --- merchant / api --- */
+    case "new-key": { store.apiKeys.push({id:"pk_live_"+Math.random().toString(36).slice(2,8),label:"Key "+(store.apiKeys.length+1),created:"2026-07-06",revealed:true}); persist(); route(); toast("API key created"); break; }
+    case "reveal-key": { var k=store.apiKeys.filter(function(x){return x.id===el.getAttribute("data-id");})[0]; k.revealed=!k.revealed; persist(); route(); break; }
+    case "rotate-key": { var k2=store.apiKeys.filter(function(x){return x.id===el.getAttribute("data-id");})[0]; k2.id="pk_live_"+Math.random().toString(36).slice(2,8); persist(); route(); toast("Key rotated"); break; }
+    case "run-api": {
+      var out=$("#apiOut"); if(!out)return; out.innerHTML='<span class="cm">// sending…</span>';
+      setTimeout(function(){ out.innerHTML='<span class="kw">POST</span> /v1/escrow\n{\n  <span class="st">"id"</span>: <span class="st">"esc_'+Math.random().toString(36).slice(2,8)+'"</span>,\n  <span class="st">"status"</span>: <span class="st">"locked"</span>,\n  <span class="st">"amount"</span>: <span class="st">"500.00"</span>,\n  <span class="st">"asset"</span>: <span class="st">"USDT"</span>\n}'; },700);
+      break;
+    }
+
+    /* --- orders export --- */
+    case "export-csv": {
+      var rows=[["id","side","amount","asset","price","currency","counterparty","method","status"]];
+      store.trades.forEach(function(t){rows.push([t.id,t.side,t.amt,t.asset,t.price,t.cur,t.cp,t.method,t.status]);});
+      var csv=rows.map(function(r){return r.join(",");}).join("\n");
+      var blob=new Blob([csv],{type:"text/csv"}); var a=document.createElement("a");
+      a.href=URL.createObjectURL(blob); a.download="benzuko-orders.csv"; a.click(); toast("Orders exported"); break;
+    }
+    case "passkey": store.user.twofa=true; persist(); route(); toast("Passkey added"); break;
+    case "revoke": toast("Session revoked"); break;
+  }
+});
+document.addEventListener("change",function(e){
+  var el=e.target.closest("[data-act='role']"); if(!el)return;
+  store.role=el.value; persist(); route(); toast("Viewing as "+el.value);
+});
+document.addEventListener("submit",function(e){ e.preventDefault(); });
+
+/* landing CTA hrefs → app */
+var CTA={ "#signup":"#/signup","#login":"#/login","#dashboard":"#/app","#kyc":"#/app/kyc","#merchant":"#/app/merchant" };
+document.addEventListener("click",function(e){
+  var a=e.target.closest("a[href]"); if(!a)return; var href=a.getAttribute("href");
+  if(CTA[href]){ e.preventDefault(); if(!store.authed && (href==="#dashboard"||href==="#kyc"||href==="#merchant")){ go("#/signup"); } else { go(CTA[href]); } }
+});
+
+window.addEventListener("hashchange",route);
+route();
+})();
+
+</script>
+</body>
+</html>
